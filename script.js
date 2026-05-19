@@ -40,22 +40,16 @@ function showRandom() {
     const hasTruths = truths.length > 0;
     const hasLies = lies.length > 0;
 
-    if (!hasTruths && !hasLies) {
+    let pool = [];
+
+    if (hasTruths) pool = pool.concat(truths);
+    if (hasLies) pool = pool.concat(lies);
+
+    if (pool.length === 0) {
         document.getElementById("sentence").innerText = "No data loaded";
         return;
     }
 
-    // equal probability if both exist
-    let pool;
-
-    if (hasTruths && hasLies) {
-        pool = Math.random() < 0.5 ? truths : lies;
-    } else {
-        pool = hasTruths ? truths : lies;
-    }
-
     const index = Math.floor(Math.random() * pool.length);
-
-    document.getElementById("sentence").innerText =
-        pool[index] || "Empty line";
+    document.getElementById("sentence").innerText = pool[index];
 }
