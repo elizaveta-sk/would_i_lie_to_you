@@ -1,6 +1,5 @@
 let truths = [];
 let lies = [];
-let currentPerson = "";
 
 async function loadFile(path) {
     const res = await fetch(path);
@@ -12,46 +11,39 @@ async function loadFile(path) {
     return await res.text();
 }
 
-async function init(person) {
-    currentPerson = person;
-
+async function init() {
     try {
-        // IMPORTANT: relative paths from index.html inside /davide or /liz
-        const basePath = `./${person}`;
-
-        const truthsText = await loadFile(`${basePath}/truths.txt`);
-        const liesText = await loadFile(`${basePath}/lies.txt`);
+        // YOU ARE ALREADY INSIDE /davide/
+        const truthsText = await loadFile(`truths.txt`);
+        const liesText = await loadFile(`lies.txt`);
 
         truths = truthsText
             .split("\n")
-            .map(line => line.trim())
+            .map(l => l.trim())
             .filter(Boolean);
 
         lies = liesText
             .split("\n")
-            .map(line => line.trim())
+            .map(l => l.trim())
             .filter(Boolean);
 
         showRandom();
 
     } catch (err) {
-        console.error("Loading error:", err);
-
+        console.error(err);
         document.getElementById("sentence").innerText =
-            "Error loading files (check console + file paths)";
+            "File loading failed (check console)";
     }
 }
 
 function showRandom() {
     const pool = [...truths, ...lies];
 
-    if (pool.length === 0) {
-        document.getElementById("sentence").innerText =
-            "No data loaded";
+    if (!pool.length) {
+        document.getElementById("sentence").innerText = "No data loaded";
         return;
     }
 
-    const index = Math.floor(Math.random() * pool.length);
-
-    document.getElementById("sentence").innerText = pool[index];
+    const i = Math.floor(Math.random() * pool.length);
+    document.getElementById("sentence").innerText = pool[i];
 }
