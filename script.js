@@ -11,25 +11,28 @@ async function loadFile(path) {
     return await res.text();
 }
 
-async function init(folder) {
+async function init() {
     try {
-        // safety check
-        if (!folder) {
-            throw new Error("No folder name passed to init()");
-        }
+        // WE ARE INSIDE /davide/, so use direct filenames
+        const truthsText = await loadFile("truths.txt");
+        const liesText = await loadFile("lies.txt");
 
-        const truthsText = await loadFile(`./${folder}/truths.txt`);
-        const liesText = await loadFile(`./${folder}/lies.txt`);
+        truths = truthsText
+            .split("\n")
+            .map(l => l.trim())
+            .filter(Boolean);
 
-        truths = truthsText.split("\n").map(l => l.trim()).filter(Boolean);
-        lies = liesText.split("\n").map(l => l.trim()).filter(Boolean);
+        lies = liesText
+            .split("\n")
+            .map(l => l.trim())
+            .filter(Boolean);
 
         showRandom();
 
     } catch (err) {
         console.error(err);
         document.getElementById("sentence").innerText =
-            "Loading failed — check console";
+            "Loading failed (check console)";
     }
 }
 
