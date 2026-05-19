@@ -13,9 +13,9 @@ async function loadFile(path) {
 
 async function init() {
     try {
-        // YOU ARE ALREADY INSIDE /davide/
-        const truthsText = await loadFile(`truths.txt`);
-        const liesText = await loadFile(`lies.txt`);
+        // IMPORTANT: NO "davide/" here
+        const truthsText = await loadFile("truths.txt");
+        const liesText = await loadFile("lies.txt");
 
         truths = truthsText
             .split("\n")
@@ -39,7 +39,7 @@ async function init() {
 function showRandom() {
     const pool = [...truths, ...lies];
 
-    if (!pool.length) {
+    if (pool.length === 0) {
         document.getElementById("sentence").innerText = "No data loaded";
         return;
     }
