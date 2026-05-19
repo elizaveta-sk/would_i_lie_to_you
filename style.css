@@ -10,6 +10,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 h1 {
@@ -76,4 +78,35 @@ button:active {
 .fade {
     opacity: 0;
     transform: translateY(6px);
+}
+
+/* ===== MOBILE VERSION ===== */
+@media (max-width: 768px) {
+
+    body {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 22px;
+        top: 20px;
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    #sentence {
+        font-size: 20px;
+        padding: 28px 20px;
+        border-radius: 18px;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+        margin-top: 20px;
+    }
 }
