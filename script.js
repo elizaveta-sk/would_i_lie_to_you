@@ -37,11 +37,17 @@ async function init() {
 }
 
 function showRandom() {
-    const pool = [...truths, ...lies];
+    let pool;
 
-    if (!pool.length) {
-        document.getElementById("sentence").innerText = "No data loaded";
-        return;
+    const pickTruth = Math.random() < 0.5;
+
+    if (pickTruth && truths.length > 0) {
+        pool = truths;
+    } else if (lies.length > 0) {
+        pool = lies;
+    } else {
+        // fallback if one file is empty
+        pool = truths.length ? truths : lies;
     }
 
     const i = Math.floor(Math.random() * pool.length);
