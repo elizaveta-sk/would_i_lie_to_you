@@ -11,35 +11,32 @@ async function loadFile(path) {
     return await res.text();
 }
 
-async function init() {
+async function init(folder) {
     try {
-        // IMPORTANT: NO "davide/" here
-        const truthsText = await loadFile("truths.txt");
-        const liesText = await loadFile("lies.txt");
+        // safety check
+        if (!folder) {
+            throw new Error("No folder name passed to init()");
+        }
 
-        truths = truthsText
-            .split("\n")
-            .map(l => l.trim())
-            .filter(Boolean);
+        const truthsText = await loadFile(`./${folder}/truths.txt`);
+        const liesText = await loadFile(`./${folder}/lies.txt`);
 
-        lies = liesText
-            .split("\n")
-            .map(l => l.trim())
-            .filter(Boolean);
+        truths = truthsText.split("\n").map(l => l.trim()).filter(Boolean);
+        lies = liesText.split("\n").map(l => l.trim()).filter(Boolean);
 
         showRandom();
 
     } catch (err) {
         console.error(err);
         document.getElementById("sentence").innerText =
-            "File loading failed (check console)";
+            "Loading failed — check console";
     }
 }
 
 function showRandom() {
     const pool = [...truths, ...lies];
 
-    if (pool.length === 0) {
+    if (!pool.length) {
         document.getElementById("sentence").innerText = "No data loaded";
         return;
     }
